@@ -15,6 +15,7 @@ function withNavBar(Component) {
       <>
         <NavBar navigation={props.navigation} />
         <Component {...props} />
+        <Text style={styles.fottertext}>Грушевицький Денис Ігорович ІПЗ-23-4</Text>
       </>
     );
   };
@@ -40,5 +41,8 @@ const styles = StyleSheet.create({
   navcontainer: {
     width: "100%",
   },
-  
+  fottertext: {
+    width: '100%',
+    textAlign: 'center',
+  },
 });
