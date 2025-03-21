@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import {StyleSheet, Text, View, TouchableOpacity, Image, FlatList, TextInput, } from "react-native";
+import {StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import NavBar from "./components/NavBar";
 import HomeScreen from "./screens/HomeScreen";
 import GalleryScreen from "./screens/GalleryScreen";

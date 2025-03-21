@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function NavBar({ navigation }) {
   return (
@@ -19,18 +20,21 @@ export default function NavBar({ navigation }) {
           style={styles.navbtn}
           onPress={() => navigation.navigate("Home")}
         >
+          <MaterialIcons name="home" size={30} color="white" />
           <Text style={styles.navText}>Дом</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navbtn}
           onPress={() => navigation.navigate("Gallery")}
         >
+        <MaterialIcons name="photo-library" size={30} color="white" />
           <Text style={styles.navText}>Фотогалерея</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navbtn}
           onPress={() => navigation.navigate("Profile")}
         >
+        <MaterialIcons name="person" size={30} color="white" />
           <Text style={styles.navText}>Профіль</Text>
         </TouchableOpacity>
       </View>
@@ -53,10 +57,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     width: "100%",
-    height: 50,
+    height: 70,
     backgroundColor: "black",
   },
   navbtn: {
+    flex: 1,
+    alignItems: 'center',
     padding: 10,
   },
   navText: {

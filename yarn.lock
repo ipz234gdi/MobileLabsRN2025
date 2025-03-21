@@ -1495,6 +1495,14 @@
     invariant "^2.2.4"
     nullthrows "^1.1.1"
 
+"@react-navigation/bottom-tabs@^7.3.1":
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-7.3.1.tgz#a01ce31898a9523542b91a29b666303d2981ecde"
+  integrity sha512-/+k9RNVZBA4rrgwiRnX9h6sBcsflH/SL2e9sedGKcF6UI3zquXZog5iY/K9aJxxV5VuupJ1OD1guWKOcci0+gg==
+  dependencies:
+    "@react-navigation/elements" "^2.2.8"
+    color "^4.2.3"
+
 "@react-navigation/core@^7.6.0":
   version "7.6.0"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-7.6.0.tgz#b7a3b67b9c75cb77c46051243fb70269b499ffe4"
