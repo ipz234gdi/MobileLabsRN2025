@@ -1,38 +1,114 @@
-import React, { useState } from 'react';
-import { FlatList } from 'react-native';
-import styled, { useTheme } from 'styled-components/native';
-import GameCard from '../components/GameCard';
+import React, { useState } from "react";
+import { FlatList } from "react-native";
+import styled from "styled-components/native";
+import Header from "../components/Header";
+import ChatItem from "../components/ChatItem";
 
-const Container = styled.View`
+const Main = styled.View`
   flex: 1;
   background-color: ${({ theme }) => theme.background};
+  padding: 0px 16px;
 `;
 
-const mockGames = Array.from({ length: 20 }, (_, i) => ({
-  id: `${i}`,
-  title: `Game #${i + 1}`,
-}));
+const TabsRow = styled.View`
+  flex-direction: row;
+  margin: 6px 0;
+  border-radius: 8px;
+  padding: 3px;
+  background-color: ${({ theme }) => theme.card};
+`;
 
-export default function Store() {
-  const [games, setGames] = useState(mockGames);
+const Tab = styled.TouchableOpacity`
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: ${({ active, theme }) =>
+    active ? theme.background : theme.card};
+  align-items: center;
+  margin-right: ${({ last }) => (last ? "0" : "8px")};
+`;
 
-  const loadMore = () => {
-    const more = Array.from({ length: 10 }, (_, i) => ({
-      id: `${games.length + i}`,
-      title: `Game #${games.length + i + 1}`,
-    }));
-    setGames(prev => [...prev, ...more]);
-  };
+const TabText = styled.Text`
+  color: ${({ active }) => (active ? "white" : "gray")};
+  font-weight: bold;
+`;
+
+const chatTemplates = [
+  {
+    name: "Mark Dyson",
+    message: "I'm already starting to play",
+    initials: "😎",
+  },
+  {
+    name: "Player123",
+    message: "You: Ok",
+    initials: "🎮",
+  },
+  {
+    name: "Player",
+    message: "Hello!",
+    initials: "?",
+  },
+  {
+    name: "𝓢xpŕėśśo",
+    message: "Ok",
+    initials: "💎",
+  },
+];
+
+function generateRandomChats(count) {
+  const chats = [];
+  for (let i = 0; i < count; i++) {
+    const template =
+      chatTemplates[Math.floor(Math.random() * chatTemplates.length)];
+    const day = Math.floor(Math.random() * 28) + 1;
+    const date = `${day < 10 ? "0" + day : day} Jun`;
+
+    chats.push({
+      id: i.toString(),
+      name: template.name,
+      message: template.message,
+      initials: template.initials,
+      date,
+    });
+  }
+  return chats;
+}
+
+export default function Chat() {
+  const [activeTab, setActiveTab] = useState("open");
+  const [chats] = useState(() => generateRandomChats(30));
 
   return (
-    <Container>
+    <Main>
+      <Header title="Chat" />
+
+      <TabsRow>
+        <Tab active={activeTab === "open"} onPress={() => setActiveTab("open")}>
+          <TabText active={activeTab === "open"}>Open chats</TabText>
+        </Tab>
+        <Tab
+          active={activeTab === "friends"}
+          last
+          onPress={() => setActiveTab("friends")}
+        >
+          <TabText active={activeTab === "friends"}>My friends</TabText>
+        </Tab>
+      </TabsRow>
+
       <FlatList
-        data={games}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => <GameCard title={item.title} />}
-        onEndReached={loadMore}
-        onEndReachedThreshold={0.5}
+        data={chats}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <ChatItem
+            name={item.name}
+            message={item.message}
+            date={item.date}
+            initials={item.initials}
+          />
+        )}
+        showsVerticalScrollIndicator={false}
       />
-    </Container>
+    </Main>
   );
 }

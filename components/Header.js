@@ -19,12 +19,14 @@ const Title = styled.Text`
   flex: 1;
 `;
 
-export default function Header() {
+export default function Header({ title = "Store" }) {
   return (
     <HeaderContainer>
       <SteamIcon width={48} height={48} />
-      <Title>Store</Title>
-      <SearchIcon width={28} height={28} />
+      <Title>{title}</Title>
+      {(title === "Store" || title === "Chat") && (
+        <SearchIcon width={28} height={28} />
+      )}
     </HeaderContainer>
   );
 }

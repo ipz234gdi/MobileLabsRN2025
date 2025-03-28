@@ -1,6 +1,7 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTheme } from "styled-components/native";
+import styled from "styled-components/native";
 
 import Store from "../screens/Store";
 import Community from "../screens/Community";
@@ -15,6 +16,12 @@ import SafetyIcon from "../assets/safety.svg";
 
 const Tab = createBottomTabNavigator();
 
+const Avatar = styled.Image`
+  width: 28px;
+  height: 28px;
+  border-radius: 50px;
+`;
+
 export default function AppNavigator() {
   const theme = useTheme();
 
@@ -26,8 +33,8 @@ export default function AppNavigator() {
         tabBarStyle: {
           backgroundColor: theme.nav,
           borderTopColor: "transparent",
-          paddingTop: '10px',
-          height: '60px',
+          paddingTop: "10px",
+          height: "60px",
         },
         tabBarActiveTintColor: theme.text,
         tabBarInactiveTintColor: "#888888",
@@ -41,7 +48,7 @@ export default function AppNavigator() {
         component={Store}
         options={{
           tabBarIcon: ({ size, color }) => (
-            <StoreIcon width={size} height={size} stroke={color}/>
+            <StoreIcon width={size} height={size} stroke={color} />
           ),
         }}
       />
@@ -51,7 +58,7 @@ export default function AppNavigator() {
         component={Community}
         options={{
           tabBarIcon: ({ size, color }) => (
-            <CommunityIcon width={size} height={size} stroke={color}/>
+            <CommunityIcon width={size} height={size} stroke={color} />
           ),
         }}
       />
@@ -60,7 +67,7 @@ export default function AppNavigator() {
         component={Chat}
         options={{
           tabBarIcon: ({ size, color }) => (
-            <ChatIcon width={size} height={size} stroke={color}/>
+            <ChatIcon width={size} height={size} stroke={color} />
           ),
         }}
       />
@@ -69,11 +76,19 @@ export default function AppNavigator() {
         component={Safety}
         options={{
           tabBarIcon: ({ size, color }) => (
-            <SafetyIcon width={size} height={size} stroke={color}/>
+            <SafetyIcon width={size} height={size} stroke={color} />
           ),
         }}
       />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({ size, color }) => (
+            <Avatar source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOjRmMTzC9sPBw-LShqk-lmz56yizMjK-2zQ&s" }} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }

@@ -19,7 +19,7 @@ const Container = styled.View`
 `;
 
 const Main = styled.View`
-  padding: 10px 16px;
+  padding: 0px 16px;
   flex: 1;
   background-color: ${({ theme }) => theme.background};
 `;
@@ -49,7 +49,8 @@ const TabText = styled.Text`
 const gameTemplates = [
   {
     title: "Grand Theft Auto V",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlVVAeSBGy9N-zDCbHUWsa-8suqNTfg_ZW0A&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlVVAeSBGy9N-zDCbHUWsa-8suqNTfg_ZW0A&s",
     platforms: "🪟 Windows",
     oldPrice: "$20",
     newPrice: "$10",
@@ -57,25 +58,29 @@ const gameTemplates = [
   },
   {
     title: "Battlefield 4™",
-    image: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1238860/capsule_616x353.jpg?t=1734376923",
+    image:
+      "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1238860/capsule_616x353.jpg?t=1734376923",
     platforms: "🪟 Windows",
     newPrice: "$35",
   },
   {
     title: "Factorio",
-    image: "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000056818/c700b4cc22a81c2099335d83fe379e9cdc6afd190a9985f74ba8f7e589f4ffd2",
+    image:
+      "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000056818/c700b4cc22a81c2099335d83fe379e9cdc6afd190a9985f74ba8f7e589f4ffd2",
     platforms: "🪟 Windows, 🍎 Mac",
     newPrice: "$7",
   },
   {
     title: "Horizon Zero Dawn",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVTBJ3mmMR_vBw8zCwWouT-AZKX9xyT0VI8Q&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVTBJ3mmMR_vBw8zCwWouT-AZKX9xyT0VI8Q&s",
     platforms: "🪟 Windows",
     newPrice: "$38",
   },
   {
     title: "Portal 2",
-    image: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/620/header.jpg",
+    image:
+      "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/620/header.jpg",
     platforms: "🪟 Windows, 🍎 Mac",
     oldPrice: "$15",
     newPrice: "$3",
@@ -84,19 +89,26 @@ const gameTemplates = [
 ];
 
 function generateRandomGames(count) {
-    return Array.from({ length: count }, (_, i) => {
-      const template = gameTemplates[Math.floor(Math.random() * gameTemplates.length)];
-      return {
-        id: `${i}`,
-        ...template,
-      };
-    });
-  }
+  return Array.from({ length: count }, (_, i) => {
+    const template =
+      gameTemplates[Math.floor(Math.random() * gameTemplates.length)];
+    return {
+      id: `${i}`,
+      ...template,
+    };
+  });
+}
 
-const tabs = ["Top Sellers", "Free to play", "Early Access", "Free to play", "Early Access"];
+const tabs = [
+  { key: "top", label: "Top Sellers" },
+  { key: "ftp1", label: "Free to play" },
+  { key: "early1", label: "Early Access" },
+  { key: "ftp2", label: "Free to play" },
+  { key: "early2", label: "Early Access" },
+];
 
 export default function Store() {
-    const [games, setGames] = useState(generateRandomGames(10));
+  const [games, setGames] = useState(generateRandomGames(10));
   const [activeTab, setActiveTab] = useState("Top Sellers");
 
   const loadMore = () => {
@@ -118,11 +130,11 @@ export default function Store() {
       <TabsContainer horizontal showsHorizontalScrollIndicator={false}>
         {tabs.map((tab) => (
           <Tab
-            key={tab}
-            active={activeTab === tab}
-            onPress={() => setActiveTab(tab)}
+            key={tab.key}
+            active={activeTab === tab.key}
+            onPress={() => setActiveTab(tab.key)}
           >
-            <TabText>{tab}</TabText>
+            <TabText>{tab.label}</TabText>
           </Tab>
         ))}
       </TabsContainer>

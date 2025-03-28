@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components/native";
-import { Text, View, Image } from "react-native";
 
 const Card = styled.View`
   width: 376px;
@@ -44,7 +43,6 @@ const OldPrice = styled.Text`
   text-decoration: line-through;
   color: gray;
   padding: 3px 5px;
-  ${'' /* margin-right: 8px; */}
   background-color: #222222;
 `;
 
@@ -59,7 +57,6 @@ const NewPrice = styled.Text`
 const Discount = styled.Text`
   color: ${({ theme }) => theme.text};
   font-weight: bold;
-  ${'' /* margin-left: 8px; */}
   background-color: #00ff88;
   padding: 3px 5px;
   border-radius: 3px 0 0 3px;
