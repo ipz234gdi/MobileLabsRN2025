@@ -6,7 +6,7 @@ const ChatItemWrapper = styled.View`
   align-items: center;
   padding: 10px 0;
   border-bottom-width: 1px;
-  border-bottom-color: #333;
+  border-bottom-color: ${({ theme }) => theme.gray};
 `;
 
 const Avatar = styled.View`
@@ -21,7 +21,7 @@ const Avatar = styled.View`
 `;
 
 const AvatarText = styled.Text`
-  color: white;
+  color: ${({ theme }) => theme.text};
   font-size: 22px;
 `;
 
@@ -35,18 +35,18 @@ const ChatTop = styled.View`
 `;
 
 const Name = styled.Text`
-  color: white;
+  color: ${({ theme }) => theme.text};
   font-weight: bold;
   font-size: 16px;
 `;
 
 const Date = styled.Text`
-  color: gray;
+  color: ${({ theme }) => theme.gray};
   font-size: 12px;
 `;
 
 const Message = styled.Text`
-  color: gray;
+  color: ${({ theme }) => theme.gray};
   font-size: 13px;
   margin-top: 2px;
 `;

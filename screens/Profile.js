@@ -1,4 +1,5 @@
 import React from "react";
+import Header from "../components/Header";
 import styled from "styled-components/native";
 
 const Main = styled.View`
@@ -31,13 +32,13 @@ const OnlineDot = styled.View`
 `;
 
 const Name = styled.Text`
-  color: white;
+  color: ${({ theme }) => theme.text};
   font-size: 16px;
   font-weight: 500;
 `;
 
 const Group = styled.Text`
-  color: gray;
+  color: ${({ theme }) => theme.gray};
   font-size: 14px;
   margin-bottom: 32px;
 `;
@@ -57,20 +58,25 @@ const OptionRow = styled.View`
 `;
 
 const OptionText = styled.Text`
-  color: white;
+  color: ${({ theme }) => theme.text};
   font-size: 15px;
 `;
 
 const Arrow = styled.Text`
-  color: gray;
+  color: ${({ theme }) => theme.gray};
   font-size: 18px;
 `;
 
 export default function Profile() {
   return (
     <Main>
+      {/* <Header title="Profile" /> */}
       <AvatarWrapper>
-        <Avatar source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOjRmMTzC9sPBw-LShqk-lmz56yizMjK-2zQ&s" }} />
+        <Avatar
+          source={{
+            uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOjRmMTzC9sPBw-LShqk-lmz56yizMjK-2zQ&s",
+          }}
+        />
         <OnlineDot />
       </AvatarWrapper>
       <Name>Firstname Lastname</Name>

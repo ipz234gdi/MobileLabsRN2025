@@ -42,7 +42,7 @@ const Tab = styled.TouchableOpacity`
 `;
 
 const TabText = styled.Text`
-  color: white;
+  color: ${({ theme }) => theme.text};
   font-weight: bold;
 `;
 

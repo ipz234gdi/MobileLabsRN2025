@@ -1,8 +1,9 @@
 export const lightTheme = {
-  background: "#FFFFFF",
-  nav: "#171a21",
-  text: "#000000",
-  card: "#F0F0F0",
+  background: "#F5F6F7",
+  nav: "#E5E7EB",
+  text: "#1F2937",
+  card: "#FFFFFF",
+  gray: "#808080",
 };
 
 export const darkTheme = {
@@ -10,4 +11,5 @@ export const darkTheme = {
   nav: "#171a21",
   text: "#FFFFFF",
   card: "#2A475E",
+  gray: "#E5E7EB",
 };

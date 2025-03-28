@@ -43,6 +43,7 @@ const OldPrice = styled.Text`
   text-decoration: line-through;
   color: gray;
   padding: 3px 5px;
+
   background-color: #222222;
 `;
 

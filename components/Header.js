@@ -1,6 +1,8 @@
-import React from 'react';
-import { View, Text, TextInput } from 'react-native';
-import styled from 'styled-components/native';
+import React, { useContext } from 'react';
+import { Switch } from 'react-native';
+import styled, { ThemeContext } from 'styled-components/native';
+import { ThemeToggleContext } from '../themes/ThemeProvider';
+
 import SteamIcon from '../assets/steam.svg';
 import SearchIcon from '../assets/search.svg';
 
@@ -20,13 +22,22 @@ const Title = styled.Text`
 `;
 
 export default function Header({ title = "Store" }) {
+  const theme = useContext(ThemeContext);
+  const { toggleTheme, isDark } = useContext(ThemeToggleContext);
+
+
   return (
     <HeaderContainer>
-      <SteamIcon width={48} height={48} />
+      <SteamIcon width={48} height={48} fill={theme.text}/>
       <Title>{title}</Title>
+      {title !== "Profile" && (
+        <Switch value={isDark} onValueChange={toggleTheme} />
+      )}
       {(title === "Store" || title === "Chat") && (
         <SearchIcon width={28} height={28} />
       )}
+
+      
     </HeaderContainer>
   );
 }

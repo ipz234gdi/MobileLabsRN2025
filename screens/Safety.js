@@ -26,12 +26,12 @@ const Tab = styled.TouchableOpacity`
 `;
 
 const TabText = styled.Text`
-  color: ${({ active }) => (active ? "white" : "gray")};
+  color: ${({ active, theme }) => (active ? theme.text : theme.gray)};
   font-weight: bold;
 `;
 
 const Label = styled.Text`
-  color: gray;
+  color: ${({ theme }) => theme.gray};
   font-size: 13px;
   text-align: center;
   margin-bottom: 6px;
@@ -40,7 +40,7 @@ const Label = styled.Text`
 const Code = styled.Text`
   font-size: 38px;
   font-weight: bold;
-  color: white;
+  color: ${({ theme }) => theme.text};
   text-align: center;
   letter-spacing: 4px;
 `;
@@ -60,7 +60,7 @@ const ProgressBarFill = styled.View`
 `;
 
 const Description = styled.Text`
-  color: white;
+  color: ${({ theme }) => theme.text};
   text-align: center;
   font-size: 13px;
   margin-top: 10px;
@@ -84,7 +84,7 @@ const OptionRow = styled.View`
 `;
 
 const Arrow = styled.Text`
-  color: gray;
+  color: ${({ theme }) => theme.gray};
   font-size: 18px;
 `;
 
@@ -96,7 +96,7 @@ const Option = styled.TouchableOpacity`
 `;
 
 const OptionText = styled.Text`
-  color: white;
+  color: ${({ theme }) => theme.text};
   font-size: 15px;
 `;
 

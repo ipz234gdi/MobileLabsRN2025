@@ -26,12 +26,12 @@ const Avatar = styled.Image`
 `;
 
 const Title = styled.Text`
-  color: white;
+  color: ${({ theme }) => theme.text};
   font-weight: bold;
 `;
 
 const Time = styled.Text`
-  color: gray;
+  color: ${({ theme }) => theme.gray};
   font-size: 12px;
 `;
 
@@ -43,7 +43,7 @@ const NewsImage = styled.Image`
 `;
 
 const Headline = styled.Text`
-  color: white;
+  color: ${({ theme }) => theme.text};
   font-size: 14px;
   font-weight: 500;
 `;
