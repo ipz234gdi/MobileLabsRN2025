@@ -36,7 +36,6 @@ export default function HomeScreen({ navigation, route }) {
   const [tasks, setTasks] = useState(route.params?.tasks || defaultTasks);
   const [singleTapCount, setSingleTapCount] = useState(0);
   const [doubleTapCount, setDoubleTapCount] = useState(0);
-  // isDraggable активується, якщо користувач утримав об'єкт >= 1 сек
   const [isDraggable, setIsDraggable] = useState(false);
   const [longPressCount, setLongPressCount] = useState(0);
 

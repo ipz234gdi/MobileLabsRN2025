@@ -2,7 +2,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "./screens/HomeScreen";
-import TasksScreen from "../TasksScreen";
+import TasksScreen from "./screens/TasksScreen";
 
 const initialTasks = [
   { id: '1', description: 'Зробити 10 кліків', completed: false },
