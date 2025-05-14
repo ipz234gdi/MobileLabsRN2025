@@ -11,7 +11,15 @@ import {
   Button,
 } from "react-native";
 import * as FileSystem from "expo-file-system";
-import { FAB } from "react-native-paper";
+import {
+  FAB,
+  Portal,
+  Modal as PaperModal,
+  Card,
+  Title,
+  Paragraph,
+  Button as PaperButton,
+} from "react-native-paper";
 
 import Breadcrumb from "../components/Breadcrumb";
 import FileItem from "../components/FileItem";
@@ -26,16 +34,17 @@ export default function FileBrowserScreen({ navigation }) {
   const [createType, setCreateType] = useState(null);
   const [inputName, setInputName] = useState("");
   const [inputContent, setInputContent] = useState("");
+  const [infoItem, setInfoItem] = useState(null);
 
   // Перечитуємо директорію на фокусі
-    useEffect(() => {
+  useEffect(() => {
     readDir();
-    }, [currentPath]);
+  }, [currentPath]);
 
-    // І один раз на старті:
-    useEffect(() => {
+  // І один раз на старті:
+  useEffect(() => {
     readDir();
-    }, []);
+  }, []);
 
   async function readDir() {
     const names = await FileSystem.readDirectoryAsync(currentPath);
@@ -47,13 +56,6 @@ export default function FileBrowserScreen({ navigation }) {
       })
     );
     setItems(detailed);
-  }
-
-  function goUp() {
-    if (currentPath === APP_DIR) return;
-    const parts = currentPath.replace(APP_DIR, "").split("/").filter(Boolean);
-    parts.pop();
-    setCurrentPath(APP_DIR + parts.join("/") + (parts.length ? "/" : ""));
   }
 
   function promptCreate(type) {
@@ -94,18 +96,17 @@ export default function FileBrowserScreen({ navigation }) {
   }
 
   function showInfo(item) {
-    Alert.alert(
-      "Інфо",
-      `Назва: ${item.name}
-        Тип: ${item.name.split(".").pop()}
-        Розмір: ${item.info.size} байт
-        Дата: ${new Date(item.info.modificationTime * 1000).toLocaleString()}`
-    );
+    setInfoItem(item);
   }
 
   return (
     <View style={styles.container}>
-      <Breadcrumb style={styles.Breadcrumb} path={currentPath} base={APP_DIR} onPress={setCurrentPath} />
+      <Breadcrumb
+        style={styles.Breadcrumb}
+        path={currentPath}
+        base={APP_DIR}
+        onPress={setCurrentPath}
+      />
       <MemoryStats />
 
       <FlatList
@@ -135,6 +136,44 @@ export default function FileBrowserScreen({ navigation }) {
         icon="folder-plus"
         onPress={() => promptCreate("folder")}
       />
+
+      <Portal>
+        <PaperModal
+          visible={!!infoItem}
+          onDismiss={() => setInfoItem(null)}
+          contentContainerStyle={styles.infoModal}
+        >
+          {infoItem && (
+            <Card>
+              <Card.Content>
+                <Title>Інформація</Title>
+                <Paragraph>
+                  <Text style={styles.infoLabel}>Назва:</Text> {infoItem.name}
+                </Paragraph>
+                <Paragraph>
+                  <Text style={styles.infoLabel}>Тип:</Text>{" "}
+                  {infoItem.name.split(".").pop()}
+                </Paragraph>
+                <Paragraph>
+                  <Text style={styles.infoLabel}>Розмір:</Text>{" "}
+                  {(infoItem.info.size / 1024).toFixed(1)} КБ
+                </Paragraph>
+                <Paragraph>
+                  <Text style={styles.infoLabel}>Модифіковано:</Text>{" "}
+                  {new Date(
+                    infoItem.info.modificationTime * 1000
+                  ).toLocaleString()}
+                </Paragraph>
+              </Card.Content>
+              <Card.Actions style={styles.infoActions}>
+                <PaperButton onPress={() => setInfoItem(null)}>
+                  Закрити
+                </PaperButton>
+              </Card.Actions>
+            </Card>
+          )}
+        </PaperModal>
+      </Portal>
 
       <Modal visible={modalVisible} transparent animationType="slide">
         <View style={styles.modalOverlay}>
@@ -173,10 +212,22 @@ export default function FileBrowserScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
+    height: "100%",
     padding: 10,
-    backgroundColor: '#F2F2F2',
-    },
+    backgroundColor: "#F2F2F2",
+  },
+  infoModal: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 10,
+  },
+  infoLabel: {
+    fontWeight: 'bold',
+  },
+  infoActions: {
+    justifyContent: 'flex-end',
+  },
   fab: {
     position: "absolute",
     right: 16,

@@ -1,15 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import * as FileSystem from 'expo-file-system';
+import {
+  TextInput,
+  Button,
+  Surface,
+  useTheme,
+  Appbar,
+  Dialog,
+  Portal,
+  Paragraph,
+} from 'react-native-paper';
 
 export default function FileScreen({ route, navigation }) {
-  const { uri } = route.params;
+  const { uri, name } = route.params;
   const [text, setText] = useState('');
+  const [infoVisible, setInfoVisible] = useState(false);
+  const [fileInfo, setFileInfo] = useState({});
+  const { colors } = useTheme();
 
+  // Читаємо файл
   useEffect(() => {
     (async () => {
       const content = await FileSystem.readAsStringAsync(uri);
       setText(content);
+      const info = await FileSystem.getInfoAsync(uri);
+      setFileInfo(info);
     })();
   }, [uri]);
 
@@ -18,23 +34,55 @@ export default function FileScreen({ route, navigation }) {
     navigation.goBack();
   }
 
+  function showInfo() {
+    setInfoVisible(true);
+  }
+
+  function hideInfo() {
+    setInfoVisible(false);
+  }
+
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.editor}
-        value={text}
-        onChangeText={setText}
-        multiline
-      />
-      <Button title="💾 Зберегти" onPress={save} />
+    <View style={styles.root}>
+      {/* Редактор у поверхні */}
+      <Surface style={styles.editorContainer}>
+        <TextInput
+          mode="outlined"
+          multiline
+          value={text}
+          onChangeText={setText}
+          style={[styles.editor, { backgroundColor: '#fff' }]}
+          placeholder="Введіть текст..."
+        />
+        <Button
+          mode="contained"
+          onPress={save}
+          style={styles.saveButton}
+          contentStyle={{ paddingVertical: 8 }}
+        >
+          💾 Зберегти
+        </Button>
+      </Surface>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex:1, padding:10 },
+  root: { flex: 1, backgroundColor: '#F2F2F2' },
+  editorContainer: {
+    flex: 1,
+    margin: 16,
+    padding: 16,
+    borderRadius: 12,
+    elevation: 4,
+  },
   editor: {
-    flex:1, borderWidth:1, borderColor:'#ccc',
-    borderRadius:4, padding:8, textAlignVertical:'top'
-  }
+    flex: 1,
+    minHeight: 200,
+    textAlignVertical: 'top',
+  },
+  saveButton: {
+    marginTop: 12,
+    borderRadius: 24,
+  },
 });
