@@ -1,35 +1,35 @@
-// services/api.js
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { navigationRef } from '../navigation/RootNavigation'; // або як ви навігуєте
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { navigate } from "../navigation/RootNavigation";
 
-// 1) створюємо інстанс з базовим URL вашої БД
 const instance = axios.create({
-  baseURL: 'https://<projectId>.firebaseio.com/',
+  baseURL: "https://lab-7-b9f45-default-rtdb.firebaseio.com",
   timeout: 5000,
 });
 
-// 2) request-інтерсептор додає ?auth=<idToken> до кожного запиту
-instance.interceptors.request.use(
-  async config => {
-    const token = await AsyncStorage.getItem('token');      // <-- правильно: AsyncStorage.getItem('token')
-    if (token) {
-      config.params = { ...config.params, auth: token };
-    }
-    return config;
-  },
-  error => Promise.reject(error)
-);
+instance.interceptors.request.use(async (config) => {
+  const token = await AsyncStorage.getItem("token");
+  if (token) {
+    console.log(
+      "[API] >>>",
+      config.method.toUpperCase(),
+      config.baseURL + config.url,
+      "params=",
+      { ...config.params, auth: token }
+    );
+    config.params = { ...config.params, auth: token };
+  }
+  return config;
+});
 
-// 3) response-інтерсептор обробляє 401-помилку
 instance.interceptors.response.use(
-  response => response,
-  async error => {
-    if (error.response?.status === 401) {
-      await AsyncStorage.removeItem('token');
-      navigationRef.navigate('Login');                       // перенаправлення на екран логіну
+  (res) => res,
+  async (err) => {
+    if (err.response?.status === 401) {
+      console.warn("[API] 401 Unauthorized — видаляю токен");
+      await AsyncStorage.removeItem("token");
     }
-    return Promise.reject(error);
+    return Promise.reject(err);
   }
 );
 
