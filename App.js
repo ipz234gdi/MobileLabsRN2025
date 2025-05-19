@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+// App.js
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { AuthProvider, AuthContext } from "./contexts/AuthContext";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 
-// Імпортуй екрани (нижче)
 import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
@@ -11,31 +11,33 @@ import ProfileScreen from "./screens/ProfileScreen";
 
 const Stack = createNativeStackNavigator();
 
-function GuestStack() {
+function RootStack() {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return null; // або спінер
+  }
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="SignIn" component={SignInScreen} />
-      <Stack.Screen name="SignUp" component={SignUpScreen} />
-      <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
-    </Stack.Navigator>
-  );
-}
-
-function AppStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Profile" component={ProfileScreen} />
+      {user ? (
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+      ) : (
+        <>
+          <Stack.Screen name="SignIn" component={SignInScreen} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
+          <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
+        </>
+      )}
     </Stack.Navigator>
   );
 }
 
 export default function App() {
-  const { user } = useContext(AuthContext);
-
   return (
     <AuthProvider>
       <NavigationContainer>
-        {user ? <AppStack /> : <GuestStack />}
+        <RootStack />
       </NavigationContainer>
     </AuthProvider>
   );

@@ -1,30 +1,30 @@
-import React, { createContext, useState, useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { auth } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
+// contexts/AuthContext.js
+import { createContext, useState, useEffect, useContext } from "react";
+import {
+  onAuthStateChanged 
+} from "firebase/auth";
+import { auth } from "../services/firebase";
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
-  // Відновлюємо сесію з AsyncStorage
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async u => {
-      if (u) {
-        setUser(u);
-        await AsyncStorage.setItem("user", JSON.stringify(u));
-      } else {
-        setUser(null);
-        await AsyncStorage.removeItem("user");
-      }
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setLoggedInUser(user);
     });
+
     return () => unsubscribe();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ loggedInUser, setLoggedInUser }}>
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuth = () => {
+  return useContext(AuthContext);
 };

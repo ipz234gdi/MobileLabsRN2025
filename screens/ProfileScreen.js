@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, TextInput, Button, Alert } from "react-native";
-import { auth, db } from "../firebase";
+import { auth, db } from "../services/firebase";
 import { doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
 import { reauthenticateWithCredential, EmailAuthProvider, deleteUser } from "firebase/auth";
 
