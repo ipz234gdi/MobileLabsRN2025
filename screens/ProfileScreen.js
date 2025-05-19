@@ -22,6 +22,14 @@ export default function ProfileScreen({ navigation }) {
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [password, setPassword] = useState("");
+  const [deleteError, setDeleteError] = useState("");
+
+  const errorMessages = {
+    "auth/missing-password": "Введіть пароль!",
+    "auth/invalid-login-credentials": "Невірний пароль.",
+    "auth/requires-recent-login":
+      "Сесія закінчилась. Будь ласка, знову увійдіть.",
+  };
 
   // Завантажити або створити документ користувача
   const fetchUserData = async () => {
@@ -68,12 +76,13 @@ export default function ProfileScreen({ navigation }) {
   // Показати модалку підтвердження
   const confirmDelete = () => {
     setPassword("");
+    setDeleteError("");
     setShowDeleteModal(true);
   };
 
   // Видалити акаунт
   const handleDelete = async () => {
-    setError("");
+    setDeleteError("");
     try {
       const cred = EmailAuthProvider.credential(user.email, password);
       await reauthenticateWithCredential(user, cred);
@@ -84,18 +93,9 @@ export default function ProfileScreen({ navigation }) {
       setShowDeleteModal(false);
       navigation.replace("SignIn");
     } catch (e) {
-      console.error("[Profile] handleDelete error", e);
-      if (e.code === "auth/wrong-password") {
-        Alert.alert("Помилка", "Невірний пароль.");
-      } else if (e.code === "auth/requires-recent-login") {
-        Alert.alert(
-          "Сесія закінчилась",
-          "Будь ласка, вийдіть і знову увійдіть, потім повторіть видалення."
-        );
-        setShowDeleteModal(false);
-      } else {
-        Alert.alert("Помилка", e.message);
-      }
+      console.error(e);
+      const msg = errorMessages[e.code] || "Помилка: " + e.message;
+      setDeleteError(msg);
     }
   };
 
@@ -150,6 +150,7 @@ export default function ProfileScreen({ navigation }) {
         onChangePassword={setPassword}
         onCancel={() => setShowDeleteModal(false)}
         onConfirm={handleDelete}
+        error={deleteError}
       />
     </View>
   );

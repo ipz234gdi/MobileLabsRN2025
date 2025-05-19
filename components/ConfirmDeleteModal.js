@@ -15,7 +15,8 @@ export default function ConfirmDeleteModal({
   password,
   onChangePassword,
   onCancel,
-  onConfirm
+  onConfirm,
+  error,
 }) {
   return (
     <Modal
@@ -35,6 +36,9 @@ export default function ConfirmDeleteModal({
             value={password}
             onChangeText={onChangePassword}
           />
+
+          {error ? <Text style={styles.errorText}>{error}</Text> : null}
+
           <View style={styles.buttons}>
             <TouchableOpacity
               style={[styles.btn, styles.cancelBtn]}
@@ -64,26 +68,30 @@ const styles = StyleSheet.create({
   },
   modal: {
     width: "85%",
-    backgroundColor: COLORS.inputBg,
-    borderRadius: SIZES.radius,
-    padding: SIZES.padding,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    padding: 20,
     elevation: 5,
   },
   title: {
-    fontSize: SIZES.font + 2,
-    marginBottom: SIZES.padding,
+    fontSize: 18,
+    marginBottom: 12,
     textAlign: "center",
-    color: COLORS.text,
   },
   input: {
-    backgroundColor: COLORS.inputBg,
-    borderColor: COLORS.inputBorder,
     borderWidth: 1,
-    borderRadius: SIZES.radius,
-    paddingHorizontal: SIZES.padding,
+    borderColor: "#ccc",
+    color: '#000',
+    placeholderTextColor: '#000',
+    borderRadius: 6,
+    paddingHorizontal: 10,
     paddingVertical: Platform.OS === "ios" ? 14 : 10,
-    marginBottom: SIZES.padding,
-    color: COLORS.text,
+    marginBottom: 10,
+  },
+  errorText: {
+    color: "#e74c3c",
+    marginBottom: 10,
+    textAlign: "center",
   },
   buttons: {
     flexDirection: "row",
@@ -91,20 +99,15 @@ const styles = StyleSheet.create({
   },
   btn: {
     flex: 1,
-    padding: SIZES.padding,
-    borderRadius: SIZES.radius,
+    padding: 12,
+    borderRadius: 6,
     alignItems: "center",
   },
   cancelBtn: {
-    backgroundColor: "#ccc",
-    marginRight: SIZES.padding / 2,
+    backgroundColor: "#ddd",
+    marginRight: 10,
   },
   deleteBtn: {
-    backgroundColor: COLORS.error,
-    marginLeft: SIZES.padding / 2,
-  },
-  btnText: {
-    color: COLORS.buttonText,
-    fontWeight: "600",
+    backgroundColor: "#e74c3c",
   },
 });
