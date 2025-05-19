@@ -8,7 +8,7 @@ export default function OrderCard({ order }) {
         Дата: {new Date(order.date).toLocaleString()}
       </Text>
       <Text style={s.text}>
-        Товарів: {order.items.length}
+        Товарів: {order.totalQty}
       </Text>
       <Text style={s.text}>
         Сума: ${order.totalPrice.toFixed(2)}

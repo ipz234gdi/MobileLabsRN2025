@@ -6,24 +6,31 @@ const cartSlice = createSlice({
     addToCart: (state, action) => {
       const { id, price, title } = action.payload;
       const item = state.items[id] || { id, title, price, qty: 0, sum: 0 };
+
       item.qty++;
-      item.sum += price;
+      item.sum = item.qty * item.price;
+
       state.items[id] = item;
+
       state.totalQty++;
       state.totalPrice += price;
     },
     removeFromCart: (state, action) => {
       const id = action.payload;
       const item = state.items[id];
+
       state.totalQty -= item.qty;
       state.totalPrice -= item.sum;
+
       delete state.items[id];
     },
     updateQty: (state, action) => {
       const { id, qty } = action.payload;
       const item = state.items[id];
+
       state.totalQty += qty - item.qty;
       state.totalPrice += (qty - item.qty) * item.price;
+
       item.qty = qty;
       item.sum = qty * item.price;
     },
