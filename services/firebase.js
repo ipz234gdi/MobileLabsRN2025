@@ -1,7 +1,11 @@
+import 'react-native-get-random-values';
+import 'react-native-url-polyfill/auto';
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { initializeApp } from "@firebase/app";
-import { getAuth, initializeAuth } from "firebase/auth";
-import { getReactNativePersistence } from "firebase/auth";
+import { initializeApp } from "firebase/app";                         // <- обов’язково firebase/app
+import { initializeAuth, getAuth, getReactNativePersistence } 
+       from "firebase/auth/react-native";                             // <- RN-специфічний auth
+import { initializeFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAWtdh--skxN_JBd8Fyw2ft_gyx8csMMM0",
@@ -15,9 +19,13 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-initializeAuth(app, {
+// === AUTH ===
+export const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage),
 });
-const auth = getAuth(app);
 
-export { auth };
+// === FIRESTORE з fallback на XHR long-polling ===
+export const db = initializeFirestore(app, {
+  experimentalForceLongPolling: true,
+  useFetchStreams: false,
+});

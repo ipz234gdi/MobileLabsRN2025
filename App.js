@@ -1,5 +1,9 @@
 // App.js
 import React from "react";
+
+import 'react-native-url-polyfill/auto';
+import 'react-native-get-random-values';
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
@@ -15,20 +19,18 @@ function RootStack() {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return null; // або спінер
+    return null;
   }
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {user ? (
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-      ) : (
-        <>
-          <Stack.Screen name="SignIn" component={SignInScreen} />
-          <Stack.Screen name="SignUp" component={SignUpScreen} />
-          <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
-        </>
-      )}
+    <Stack.Navigator
+      initialRouteName={user ? "Profile" : "SignIn"}
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name="SignIn" component={SignInScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
     </Stack.Navigator>
   );
 }

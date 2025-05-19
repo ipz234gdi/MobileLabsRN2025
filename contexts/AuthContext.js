@@ -1,4 +1,3 @@
-// contexts/AuthContext.js
 import { createContext, useState, useEffect, useContext } from "react";
 import {
   onAuthStateChanged 
